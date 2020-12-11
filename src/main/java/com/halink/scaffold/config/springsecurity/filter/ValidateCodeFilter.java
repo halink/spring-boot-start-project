@@ -33,7 +33,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
         if (StringUtils.equalsIgnoreCase(loginUrl, request.getRequestURI())
                 && StringUtils.equalsIgnoreCase(request.getMethod(), "post")) {
             String code = request.getParameter("imageCode");
-//            TODO 测试可以用
+            // TODO 测试可以用
             if ("test".equalsIgnoreCase(code)) {
                 chain.doFilter(request, response);
                 return;
