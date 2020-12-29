@@ -1,4 +1,4 @@
-package com.halink.scaffold.config.mybatisenumhandler;
+package com.halink.scaffold.config.enumhandler;
 
 import com.halink.scaffold.common.enumerate.BaseEnum;
 import org.apache.ibatis.type.BaseTypeHandler;
