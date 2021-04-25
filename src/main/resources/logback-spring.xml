@@ -49,7 +49,6 @@
         <prudent>false</prudent>
     </appender>
 
-<!--    <logger name="com.halink" level="DEBUG"/>-->
     <!-- 日志输出级别 -->
     <root level="INFO">
         <appender-ref ref="FILE"/>

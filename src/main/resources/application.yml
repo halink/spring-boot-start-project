@@ -6,10 +6,10 @@ server:
     context-path: /
 
 spring:
+  profiles:
+    active: dev
   application:
     name: start-project
-  profiles:
-    active: @profileActive@
   mvc:
     throw-exception-if-no-handler-found:
       true
