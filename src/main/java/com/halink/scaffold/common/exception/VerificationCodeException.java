@@ -1,5 +1,7 @@
 package com.halink.scaffold.common.exception;
 
+import org.springframework.http.HttpStatus;
+
 /**
  * 验证码异常
  *
@@ -8,6 +10,6 @@ package com.halink.scaffold.common.exception;
  */
 public class VerificationCodeException extends BaseException {
     public VerificationCodeException(int errorCode, String errorMsg) {
-        super(errorCode, errorMsg);
+        super(HttpStatus.BAD_REQUEST, errorCode, errorMsg);
     }
 }

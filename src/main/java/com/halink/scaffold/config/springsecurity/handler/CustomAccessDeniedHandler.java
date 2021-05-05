@@ -2,9 +2,10 @@ package com.halink.scaffold.config.springsecurity.handler;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.halink.scaffold.common.constant.ResponseCodeConstants;
-import com.halink.scaffold.common.constant.ResponseMessageConstants;
-import com.halink.scaffold.core.util.ResultUtil;
+import com.halink.scaffold.common.constant.CodeConstants;
+import com.halink.scaffold.common.constant.MessageConstants;
+import com.halink.scaffold.common.vo.ExceptionResult;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
@@ -27,12 +28,10 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException e) throws IOException {
         response.setCharacterEncoding("utf-8");
         response.setContentType("application/json");
+        response.setStatus(HttpStatus.FORBIDDEN.value());
         response.getWriter().write(
                 objectMapper.writeValueAsString(
-                        ResultUtil.response(
-                                ResponseCodeConstants.NO_AUTHORITY,
-                                ResponseMessageConstants.NO_AUTHORITY
-                        )
+                        ExceptionResult.builder().errorCode(CodeConstants.FORBIDDEN).errorMessage(MessageConstants.FORBIDDEN).build()
                 )
         );
     }

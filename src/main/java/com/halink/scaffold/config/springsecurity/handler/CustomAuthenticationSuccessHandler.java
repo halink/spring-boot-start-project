@@ -1,11 +1,8 @@
 package com.halink.scaffold.config.springsecurity.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.halink.scaffold.common.constant.ResponseCodeConstants;
-import com.halink.scaffold.common.constant.ResponseMessageConstants;
 import com.halink.scaffold.common.dto.UserDto;
 import com.halink.scaffold.common.vo.user.UserVo;
-import com.halink.scaffold.core.util.ResultUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -35,16 +32,11 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         response.setContentType("application/json");
         UserDto userDto = (UserDto) authentication.getPrincipal();
         UserVo userVo = new UserVo();
+        // TODO 改为MapStruct处理
         BeanUtils.copyProperties(userDto, userVo);
         //自定义login，不走这里、若使用security的formLogin则自己添加业务实现(生成token、存储token等等)
         response.getWriter().write(
-                objectMapper.writeValueAsString(
-                        ResultUtil.response(
-                                ResponseCodeConstants.LOGIN_SUCCESS,
-                                userVo,
-                                ResponseMessageConstants.LOGIN_SUCCESS
-                        )
-                )
+                objectMapper.writeValueAsString(userVo)
         );
     }
 }

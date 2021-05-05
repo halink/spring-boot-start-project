@@ -1,9 +1,6 @@
 package com.halink.scaffold.config.springsecurity.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.halink.scaffold.common.constant.ResponseCodeConstants;
-import com.halink.scaffold.common.constant.ResponseMessageConstants;
-import com.halink.scaffold.core.util.ResultUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
@@ -29,14 +26,6 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
         response.setCharacterEncoding("utf-8");
         response.setContentType("application/json");
         //没有logout不走这里、若使用security的formLogin则自己添加业务实现（移除token等等）
-        response.getWriter().write(
-                objectMapper.writeValueAsString(
-                        ResultUtil.response(
-                                ResponseCodeConstants.LOGOUT_SUCCESS,
-                                ResponseMessageConstants.LOGOUT_SUCCESS
-                        )
-                )
-        );
     }
 
 }

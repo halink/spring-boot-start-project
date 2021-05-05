@@ -1,7 +1,7 @@
 package com.halink.scaffold.modular.service.impl;
 
-import com.halink.scaffold.common.constant.ExceptionCodeConstants;
-import com.halink.scaffold.common.constant.ExceptionMessageConstants;
+import com.halink.scaffold.common.constant.CodeConstants;
+import com.halink.scaffold.common.constant.MessageConstants;
 import com.halink.scaffold.common.constant.SystemConstants;
 import com.halink.scaffold.common.exception.VerificationCodeException;
 import com.halink.scaffold.core.redis.RedisUtils;
@@ -52,7 +52,7 @@ public class VerificationCodeServiceImpl implements VerificationCodeService {
         try {
             ImageIO.write(image, "jpeg", response.getOutputStream());
         } catch (IOException e) {
-            throw new VerificationCodeException(ExceptionCodeConstants.VERIFICATION_CODE_GENERATE_EXCEPTION, ExceptionMessageConstants.VERIFICATION_CODE_GENERATE_EXCEPTION);
+            throw new VerificationCodeException(CodeConstants.VERIFICATION_CODE_GENERATE_EXCEPTION, MessageConstants.VERIFICATION_CODE_GENERATE_EXCEPTION);
         }
     }
 }

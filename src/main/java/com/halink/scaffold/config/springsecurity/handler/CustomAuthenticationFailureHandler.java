@@ -1,10 +1,11 @@
 package com.halink.scaffold.config.springsecurity.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.halink.scaffold.common.constant.ResponseCodeConstants;
-import com.halink.scaffold.common.constant.ResponseMessageConstants;
+import com.halink.scaffold.common.constant.CodeConstants;
+import com.halink.scaffold.common.constant.MessageConstants;
 import com.halink.scaffold.common.exception.CustomAuthenticationException;
-import com.halink.scaffold.core.util.ResultUtil;
+import com.halink.scaffold.common.vo.ExceptionResult;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
@@ -27,19 +28,16 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException {
         response.setCharacterEncoding("utf-8");
         response.setContentType("application/json");
-        response.setCharacterEncoding("utf-8");
+        response.setStatus(HttpStatus.UNAUTHORIZED.value());
         String message;
         if (e instanceof CustomAuthenticationException) {
             message = e.getLocalizedMessage();
         } else {
-            message = ResponseMessageConstants.LOGIN_FAILURE;
+            message = MessageConstants.LOGIN_FAILURE;
         }
         response.getWriter().write(
                 objectMapper.writeValueAsString(
-                        ResultUtil.response(
-                                ResponseCodeConstants.LOGIN_FAILURE,
-                                message
-                        )
+                        ExceptionResult.builder().errorCode(CodeConstants.UNAUTHORIZED).errorMessage(message)
                 )
         );
     }

@@ -1,6 +1,7 @@
 package com.halink.scaffold.config.enumhandler;
 
 import com.halink.scaffold.common.enumerate.BaseEnum;
+import com.halink.scaffold.common.exception.IllegalParameterException;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.EnumTypeHandler;
 import org.apache.ibatis.type.JdbcType;
@@ -22,7 +23,7 @@ public class AutoConversionHandler<E extends Enum<E>> extends BaseTypeHandler<E>
 
     public AutoConversionHandler(Class<E> type) {
         if (type == null) {
-            throw new IllegalArgumentException("Type argument cannot be null");
+            throw new IllegalParameterException("Type argument cannot be null");
         }
         if (BaseEnum.class.isAssignableFrom(type)) {
             // 如果实现了 BaseCodeEnum 则使用我们自定义的转换器

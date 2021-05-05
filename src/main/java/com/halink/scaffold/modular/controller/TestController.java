@@ -3,12 +3,12 @@ package com.halink.scaffold.modular.controller;
 import com.halink.scaffold.common.entity.User;
 import com.halink.scaffold.common.enumerate.UserStatuesEnum;
 import com.halink.scaffold.common.vo.user.UserVo;
-import com.halink.scaffold.config.globalresponse.SuccessResponse;
 import com.halink.scaffold.modular.mapper.UserMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,8 +28,7 @@ public class TestController {
 
     private final UserMapper userMapper;
 
-    @SuccessResponse
-    @RequestMapping("/login")
+    @PostMapping("/login")
     @ApiOperation("测试接口")
     public UserVo login(@Valid @RequestBody UserVo userVo) {
         System.out.println(userVo);

@@ -1,7 +1,8 @@
 package com.halink.scaffold.common.exception;
 
-import com.halink.scaffold.common.constant.ExceptionCodeConstants;
-import com.halink.scaffold.common.constant.ExceptionMessageConstants;
+import com.halink.scaffold.common.constant.CodeConstants;
+import com.halink.scaffold.common.constant.MessageConstants;
+import org.springframework.http.HttpStatus;
 
 /**
  * 接收枚举数据异常
@@ -11,6 +12,6 @@ import com.halink.scaffold.common.constant.ExceptionMessageConstants;
  */
 public class AcceptEnumFormatException extends BaseException {
     public AcceptEnumFormatException() {
-        super(ExceptionCodeConstants.ACCEPT_ENUM_FORMAT_EXCEPTION, ExceptionMessageConstants.ACCEPT_ENUM_FORMAT_EXCEPTION);
+        super(HttpStatus.BAD_REQUEST, CodeConstants.ACCEPT_ENUM_FORMAT_EXCEPTION, MessageConstants.ACCEPT_ENUM_FORMAT_EXCEPTION);
     }
 }

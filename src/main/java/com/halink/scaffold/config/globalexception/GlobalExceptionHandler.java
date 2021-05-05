@@ -1,11 +1,12 @@
 package com.halink.scaffold.config.globalexception;
 
-import com.halink.scaffold.common.constant.ExceptionCodeConstants;
-import com.halink.scaffold.common.constant.ExceptionMessageConstants;
+import com.halink.scaffold.common.constant.CodeConstants;
+import com.halink.scaffold.common.constant.MessageConstants;
 import com.halink.scaffold.common.exception.BaseException;
-import com.halink.scaffold.common.vo.ResponseResult;
-import com.halink.scaffold.core.util.ResultUtil;
+import com.halink.scaffold.common.vo.ExceptionResult;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
@@ -30,18 +31,23 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     @ResponseBody
-    public ResponseResult dealException(HttpServletRequest req, Throwable e) {
+    public ResponseEntity<ExceptionResult> dealException(HttpServletRequest req, Throwable e) {
         log.error("system error - ", e);
-        ResponseResult restResponse = new ResponseResult();
+        ResponseEntity<ExceptionResult> responseEntity;
         if (e instanceof BaseException) {
-            BaseException se = (BaseException) e;
-            restResponse.setCode(se.getErrorCode());
-            restResponse.setMessage(se.getErrorMsg());
+            BaseException baseException = (BaseException) e;
+            responseEntity = ResponseEntity.status(baseException.getStatus()).body(
+                    ExceptionResult.builder().errorCode(baseException.getErrorCode())
+                            .errorMessage(baseException.getErrorMsg()).build()
+            );
         } else {
-            restResponse.setCode(ExceptionCodeConstants.SYSTEM_ERROR);
-            restResponse.setMessage(ExceptionMessageConstants.SYSTEM_EXCEPTION);
+            responseEntity = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+                    ExceptionResult.builder().errorCode(CodeConstants.SERVER_ERROR)
+                            .errorMessage(MessageConstants.SERVER_ERROR).build()
+            );
+
         }
-        return restResponse;
+        return responseEntity;
     }
 
 
@@ -50,7 +56,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseBody
-    public ResponseResult dealMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+    public ResponseEntity<ExceptionResult> dealMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         log.error("Param Error -> ", e);
         StringBuilder errorString = new StringBuilder();
         StringBuilder errorMsg = new StringBuilder();
@@ -61,7 +67,10 @@ public class GlobalExceptionHandler {
             errorMsg.append(errorMessage).append("! ");
         });
         log.error("Param Error -> {}", errorString);
-        return ResultUtil.response(ExceptionCodeConstants.PARAMETER_EXCEPTION, errorMsg.toString());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                ExceptionResult.builder().errorCode(CodeConstants.PARAMETER_EXCEPTION)
+                        .errorMessage(errorMsg.toString()).build()
+        );
     }
 
     /**
@@ -69,7 +78,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(BindException.class)
     @ResponseBody
-    public ResponseResult dealBindException(BindException e) {
+    public ResponseEntity<ExceptionResult> dealBindException(BindException e) {
         log.error("Param Error -> ", e);
         StringBuilder errorString = new StringBuilder();
         StringBuilder errorMsg = new StringBuilder();
@@ -80,7 +89,10 @@ public class GlobalExceptionHandler {
             errorMsg.append(errorMessage).append("! ");
         });
         log.error("Param Error -> {}", errorString);
-        return ResultUtil.response(ExceptionCodeConstants.PARAMETER_EXCEPTION, errorMsg.toString());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                ExceptionResult.builder().errorCode(CodeConstants.PARAMETER_EXCEPTION)
+                        .errorMessage(errorMsg.toString()).build()
+        );
     }
 
     /**
@@ -88,7 +100,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseBody
-    public ResponseResult dealConstraintViolationException(ConstraintViolationException e) {
+    public ResponseEntity<ExceptionResult> dealConstraintViolationException(ConstraintViolationException e) {
         log.error("Param Error -> ", e);
         StringBuilder errorMsg = new StringBuilder();
         String[] msgs = e.getMessage().split(", ");
@@ -97,7 +109,10 @@ public class GlobalExceptionHandler {
             String message = fieldAndMsg[1];
             errorMsg.append(message).append("! ");
         }
-        return ResultUtil.response(ExceptionCodeConstants.PARAMETER_EXCEPTION, errorMsg.toString());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                ExceptionResult.builder().errorCode(CodeConstants.PARAMETER_EXCEPTION)
+                        .errorMessage(errorMsg.toString()).build()
+        );
     }
 
 
@@ -106,9 +121,12 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(HttpMessageNotReadableException.class)
     @ResponseBody
-    public ResponseResult dealHttpMessageNotReadableException(HttpMessageNotReadableException e) {
+    public ResponseEntity<ExceptionResult> dealHttpMessageNotReadableException(HttpMessageNotReadableException e) {
         log.error("请求体异常 Error -> ", e);
-        return ResultUtil.response(ExceptionCodeConstants.REQUEST_BODY_EXCEPTION, ExceptionMessageConstants.REQUEST_BODY_EXCEPTION);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                ExceptionResult.builder().errorCode(CodeConstants.REQUEST_BODY_EXCEPTION)
+                        .errorMessage(MessageConstants.REQUEST_BODY_EXCEPTION).build()
+        );
     }
 
     /**
@@ -116,7 +134,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     @ResponseBody
-    public ResponseResult dealHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
+    public ResponseEntity<ExceptionResult> dealHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
         log.error("请求体异常 Error -> ", e);
         String[] supportedMethods = e.getSupportedMethods();
         String errorMessage;
@@ -125,7 +143,10 @@ public class GlobalExceptionHandler {
         } else {
             errorMessage = "请使用" + Arrays.toString(supportedMethods) + "方法";
         }
-        return ResultUtil.response(ExceptionCodeConstants.REQUEST_METHOD_EXCEPTION, String.format(ExceptionMessageConstants.REQUEST_METHOD_EXCEPTION, errorMessage));
+        return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(
+                ExceptionResult.builder().errorCode(CodeConstants.REQUEST_METHOD_EXCEPTION)
+                        .errorMessage(errorMessage).build()
+        );
     }
 
 }

@@ -1,6 +1,6 @@
 package com.halink.scaffold.config.springsecurity.filter;
 
-import com.halink.scaffold.common.constant.ExceptionMessageConstants;
+import com.halink.scaffold.common.constant.MessageConstants;
 import com.halink.scaffold.common.exception.CustomAuthenticationException;
 import com.halink.scaffold.core.redis.RedisUtils;
 import lombok.RequiredArgsConstructor;
@@ -42,18 +42,18 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
             String sysCode = String.valueOf(redisUtils.get(jSessionId));
             if (StringUtils.isEmpty(sysCode)) {
                 authenticationFailureHandler.onAuthenticationFailure(request, response,
-                        CustomAuthenticationException.getInstance(ExceptionMessageConstants.IMAGE_VERIFICATION_CODE_EXPIRED_EXCEPTION));
+                        CustomAuthenticationException.getInstance(MessageConstants.IMAGE_VERIFICATION_CODE_EXPIRED_EXCEPTION));
                 return;
             }
             redisUtils.del(jSessionId);
             if (StringUtils.isEmpty(code)) {
                 authenticationFailureHandler.onAuthenticationFailure(request, response,
-                        CustomAuthenticationException.getInstance(ExceptionMessageConstants.IMAGE_VERIFICATION_CODE_IS_NULL_EXCEPTION));
+                        CustomAuthenticationException.getInstance(MessageConstants.IMAGE_VERIFICATION_CODE_IS_NULL_EXCEPTION));
                 return;
             }
             if (!sysCode.equalsIgnoreCase(code)) {
                 authenticationFailureHandler.onAuthenticationFailure(request, response,
-                        CustomAuthenticationException.getInstance(ExceptionMessageConstants.IMAGE_VERIFICATION_CODE_FAULT_EXCEPTION));
+                        CustomAuthenticationException.getInstance(MessageConstants.IMAGE_VERIFICATION_CODE_FAULT_EXCEPTION));
                 return;
             }
         }

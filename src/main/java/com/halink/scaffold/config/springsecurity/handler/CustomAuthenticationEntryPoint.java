@@ -2,9 +2,10 @@ package com.halink.scaffold.config.springsecurity.handler;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.halink.scaffold.common.constant.ResponseCodeConstants;
-import com.halink.scaffold.common.constant.ResponseMessageConstants;
-import com.halink.scaffold.core.util.ResultUtil;
+import com.halink.scaffold.common.constant.CodeConstants;
+import com.halink.scaffold.common.constant.MessageConstants;
+import com.halink.scaffold.common.vo.ExceptionResult;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -27,12 +28,10 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException {
         response.setCharacterEncoding("utf-8");
         response.setContentType("application/json");
+        response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.getWriter().write(
                 objectMapper.writeValueAsString(
-                        ResultUtil.response(
-                                ResponseCodeConstants.NO_LOGIN_IN,
-                                ResponseMessageConstants.NO_LOGIN_IN
-                        )
+                        ExceptionResult.builder().errorCode(CodeConstants.NO_LOGIN_IN).errorMessage(MessageConstants.NO_LOGIN_IN).build()
                 )
         );
     }

@@ -6,3 +6,6 @@
 # build & run
     docker build -t halink-boot .
     docker run -itd --name halink-boot-test -p 8080:8080 --e spring.profiles.active=test halink-boot
+
+# 项目介绍
+    接口 RESTful API 设计规范 https://godruoyi.com/posts/the-resetful-api-design-specification

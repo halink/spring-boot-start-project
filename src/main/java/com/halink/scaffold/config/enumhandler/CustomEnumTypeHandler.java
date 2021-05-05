@@ -1,6 +1,7 @@
 package com.halink.scaffold.config.enumhandler;
 
 import com.halink.scaffold.common.enumerate.BaseEnum;
+import com.halink.scaffold.common.exception.IllegalParameterException;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 
@@ -20,7 +21,7 @@ public class CustomEnumTypeHandler<E extends Enum<?> & BaseEnum> extends BaseTyp
 
     public CustomEnumTypeHandler(Class<E> aClass) {
         if (aClass == null) {
-            throw new IllegalArgumentException("Type argument cannot be null");
+            throw new IllegalParameterException("Type argument cannot be null");
         }
         this.aClass = aClass;
     }
@@ -70,8 +71,7 @@ public class CustomEnumTypeHandler<E extends Enum<?> & BaseEnum> extends BaseTyp
             }
             return null;
         } catch (Exception ex) {
-            throw new IllegalArgumentException("Cannot convert " + value + " to " + aClass.getSimpleName() + " by ordinal value.",
-                    ex);
+            throw new IllegalParameterException("Cannot convert " + value + " to " + aClass.getSimpleName() + " by ordinal value.");
         }
     }
 }
