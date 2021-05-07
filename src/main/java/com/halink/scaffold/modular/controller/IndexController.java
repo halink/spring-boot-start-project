@@ -1,6 +1,6 @@
 package com.halink.scaffold.modular.controller;
 
-import com.halink.scaffold.common.entity.SysUser;
+import com.halink.scaffold.common.entity.User;
 import com.halink.scaffold.common.vo.user.UserVo;
 import com.halink.scaffold.core.mapstruct.UserTransformMapper;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,8 @@ public class IndexController {
 
     @GetMapping()
     public UserVo index() {
-        SysUser sysUser = SysUser.builder().username("user").password("123").userId(1).nickName("fsd").build();
-        return userTransformMapper.toUserVO(sysUser);
+        User user = User.builder()
+                .username("user").password("123").userId(1).nickName("fsd").build();
+        return userTransformMapper.toUserVO(user);
     }
 }

@@ -1,12 +1,13 @@
 package com.halink.scaffold.config.springsecurity.service;
 
 import com.google.common.collect.Sets;
-import com.halink.scaffold.common.entity.SysUser;
-import com.halink.scaffold.modular.mapper.SysUserMapper;
+import com.halink.scaffold.common.dto.security.SecurityUser;
+import com.halink.scaffold.common.entity.User;
+import com.halink.scaffold.modular.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -25,7 +26,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class MyUserDetailsServiceImpl implements UserDetailsService {
 
-    private final SysUserMapper userMapper;
+    private final UserMapper userMapper;
 
     /**
      * 若使用security表单鉴权则需实现该方法，通过username获取用户信息（密码、权限等等）
@@ -36,15 +37,20 @@ public class MyUserDetailsServiceImpl implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) {
-        SysUser user = userMapper.selectByPrimaryKey(1);
+        User user = userMapper.selectByUsername(username);
         if (user == null) {
             log.error("username not found! username:{}", username);
-            throw new UsernameNotFoundException("用户不存在");
+            // 这里抛出的异常security会处理成BadCredentialsException: Bad credentials
+            throw new UsernameNotFoundException("username not found");
         }
-        Set<SimpleGrantedAuthority> authoritiesSet = Sets.newHashSet();
-        // 模拟从数据库中获取用户权限
+        // TODO 模拟接口权限
+        Set<GrantedAuthority> authoritiesSet = Sets.newHashSet();
         authoritiesSet.add(new SimpleGrantedAuthority("test:list"));
         authoritiesSet.add(new SimpleGrantedAuthority("test:add"));
-        return new User(user.getUsername(), user.getPassword(), authoritiesSet);
+        return SecurityUser.builder()
+                .userId(user.getUserId())
+                .username(user.getUsername())
+                .password(user.getPassword())
+                .authorities(authoritiesSet).build();
     }
 }

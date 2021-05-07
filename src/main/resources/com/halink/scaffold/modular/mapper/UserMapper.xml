@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.halink.scaffold.modular.mapper.UserMapper">
+    <resultMap id="BaseResultMap" type="com.halink.scaffold.common.entity.User">
+        <!--@Table p_user-->
+        <id column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="nick_name" jdbcType="VARCHAR" property="nickName"/>
+        <result column="area_code" jdbcType="VARCHAR" property="areaCode"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="photo" jdbcType="VARCHAR" property="photo"/>
+        <result column="gender" jdbcType="TINYINT" property="gender"/>
+        <result column="birthday" jdbcType="DATE" property="birthday"/>
+        <result column="created_at" jdbcType="TIMESTAMP" property="createdAt"/>
+        <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt"/>
+        <result column="last_login_at" jdbcType="TIMESTAMP" property="lastLoginAt"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        user_id,
+        username,
+        `password`,
+        nick_name,
+        area_code,
+        phone,
+        photo,
+        gender,
+        birthday,
+        created_at,
+        updated_at,
+        last_login_at
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from p_user
+        where user_id = #{userId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from p_user
+        where user_id = #{userId,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" keyColumn="user_id" keyProperty="userId" parameterType="com.halink.scaffold.common.entity.User"
+            useGeneratedKeys="true">
+        insert into p_user (username, `password`, nick_name,
+                            area_code, phone, photo,
+                            gender, birthday, created_at,
+                            updated_at, last_login_at)
+        values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR},
+                #{areaCode,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{photo,jdbcType=VARCHAR},
+                #{gender,jdbcType=TINYINT}, #{birthday,jdbcType=DATE}, #{createdAt,jdbcType=TIMESTAMP},
+                #{updatedAt,jdbcType=TIMESTAMP}, #{lastLoginAt,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" keyColumn="user_id" keyProperty="userId"
+            parameterType="com.halink.scaffold.common.entity.User" useGeneratedKeys="true">
+        insert into p_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="username != null">
+                username,
+            </if>
+            <if test="password != null">
+                `password`,
+            </if>
+            <if test="nickName != null">
+                nick_name,
+            </if>
+            <if test="areaCode != null">
+                area_code,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="photo != null">
+                photo,
+            </if>
+            <if test="gender != null">
+                gender,
+            </if>
+            <if test="birthday != null">
+                birthday,
+            </if>
+            <if test="createdAt != null">
+                created_at,
+            </if>
+            <if test="updatedAt != null">
+                updated_at,
+            </if>
+            <if test="lastLoginAt != null">
+                last_login_at,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="username != null">
+                #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="nickName != null">
+                #{nickName,jdbcType=VARCHAR},
+            </if>
+            <if test="areaCode != null">
+                #{areaCode,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="photo != null">
+                #{photo,jdbcType=VARCHAR},
+            </if>
+            <if test="gender != null">
+                #{gender,jdbcType=TINYINT},
+            </if>
+            <if test="birthday != null">
+                #{birthday,jdbcType=DATE},
+            </if>
+            <if test="createdAt != null">
+                #{createdAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatedAt != null">
+                #{updatedAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastLoginAt != null">
+                #{lastLoginAt,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.halink.scaffold.common.entity.User">
+        update p_user
+        <set>
+            <if test="username != null">
+                username = #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                `password` = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="nickName != null">
+                nick_name = #{nickName,jdbcType=VARCHAR},
+            </if>
+            <if test="areaCode != null">
+                area_code = #{areaCode,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="photo != null">
+                photo = #{photo,jdbcType=VARCHAR},
+            </if>
+            <if test="gender != null">
+                gender = #{gender,jdbcType=TINYINT},
+            </if>
+            <if test="birthday != null">
+                birthday = #{birthday,jdbcType=DATE},
+            </if>
+            <if test="createdAt != null">
+                created_at = #{createdAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatedAt != null">
+                updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastLoginAt != null">
+                last_login_at = #{lastLoginAt,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where user_id = #{userId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.halink.scaffold.common.entity.User">
+        update p_user
+        set username      = #{username,jdbcType=VARCHAR},
+            `password`    = #{password,jdbcType=VARCHAR},
+            nick_name     = #{nickName,jdbcType=VARCHAR},
+            area_code     = #{areaCode,jdbcType=VARCHAR},
+            phone         = #{phone,jdbcType=VARCHAR},
+            photo         = #{photo,jdbcType=VARCHAR},
+            gender        = #{gender,jdbcType=TINYINT},
+            birthday      = #{birthday,jdbcType=DATE},
+            created_at    = #{createdAt,jdbcType=TIMESTAMP},
+            updated_at    = #{updatedAt,jdbcType=TIMESTAMP},
+            last_login_at = #{lastLoginAt,jdbcType=TIMESTAMP}
+        where user_id = #{userId,jdbcType=INTEGER}
+    </update>
+</mapper>

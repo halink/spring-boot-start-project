@@ -37,7 +37,7 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
         }
         response.getWriter().write(
                 objectMapper.writeValueAsString(
-                        ExceptionResult.builder().errorCode(CodeConstants.UNAUTHORIZED).errorMessage(message)
+                        ExceptionResult.builder().errorCode(CodeConstants.UNAUTHORIZED).errorMessage(message).build()
                 )
         );
     }

@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @ApiModel("测试参数类")
 public class TestParam {
-    
+
     @ApiModelProperty(value = "姓名")
     private String name;
 }

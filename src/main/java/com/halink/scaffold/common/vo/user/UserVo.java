@@ -1,7 +1,5 @@
 package com.halink.scaffold.common.vo.user;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.halink.scaffold.config.enumserialize.CustomEnumDeserialize;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

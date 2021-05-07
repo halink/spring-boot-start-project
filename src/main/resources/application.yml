@@ -70,3 +70,4 @@ mybatis:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     default-enum-type-handler: com.halink.scaffold.config.enumhandler.AutoConversionHandler
     map-underscore-to-camel-case: true
+login-api: /api/login
