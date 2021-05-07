@@ -1,5 +1,6 @@
 package com.halink.scaffold.core.redis;
 
+import com.halink.scaffold.common.exception.IllegalParameterException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
@@ -33,7 +34,7 @@ public class RedisUtils {
             redisTemplate.expire(key, time, TimeUnit.SECONDS);
         }
     }
-    
+
     /**
      * 判断 key 是否存在
      *
@@ -126,7 +127,7 @@ public class RedisUtils {
      */
     public long incr(String key, long delta) {
         if (delta < 0) {
-            throw new RuntimeException("递增因子必须大于 0");
+            throw new IllegalParameterException("递增因子必须大于 0");
         }
         return redisTemplate.opsForValue().increment(key, delta);
     }
@@ -140,7 +141,7 @@ public class RedisUtils {
      */
     public long decr(String key, long delta) {
         if (delta < 0) {
-            throw new RuntimeException("递减因子必须大于 0");
+            throw new IllegalParameterException("递减因子必须大于 0");
         }
         return redisTemplate.opsForValue().increment(key, delta);
     }

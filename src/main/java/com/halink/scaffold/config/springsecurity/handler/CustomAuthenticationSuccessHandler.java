@@ -1,7 +1,6 @@
 package com.halink.scaffold.config.springsecurity.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.halink.scaffold.common.dto.UserDto;
 import com.halink.scaffold.common.vo.user.UserVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,10 +29,10 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         response.setCharacterEncoding("utf-8");
         response.setContentType("application/json");
-        UserDto userDto = (UserDto) authentication.getPrincipal();
+        Object principal = authentication.getPrincipal();
         UserVo userVo = new UserVo();
         // TODO 改为MapStruct处理
-        BeanUtils.copyProperties(userDto, userVo);
+        BeanUtils.copyProperties(principal, userVo);
         //自定义login，不走这里、若使用security的formLogin则自己添加业务实现(生成token、存储token等等)
         response.getWriter().write(
                 objectMapper.writeValueAsString(userVo)

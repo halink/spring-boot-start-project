@@ -32,6 +32,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
             "/webjars/**",
             "/api/verification-code/**",
             "/actuator/**",
+            "/index",
             "/druid/**"
     };
     /**
