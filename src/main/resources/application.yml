@@ -65,9 +65,9 @@ spring:
     default-property-inclusion: ALWAYS
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss
+    property-naming-strategy: SNAKE_CASE
 mybatis:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     default-enum-type-handler: com.halink.scaffold.config.enumhandler.AutoConversionHandler
-    map-underscore-to-camel-case: true
 login-api: /api/login
