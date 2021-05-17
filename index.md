@@ -1,4 +1,4 @@
-## Welcome to HaLink`s spring-boot-start-project
+## Welcome to HaLink`s boot-project
 快速搭建springboot项目，整合多种常用组件，简化项目开发步骤，让开发人员更关注于业务开发。
 
 #### Tips:
