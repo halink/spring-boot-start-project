@@ -1,6 +1,5 @@
 package com.halink.scaffold.common.vo;
 
-import com.sun.xml.internal.ws.developer.Serialization;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

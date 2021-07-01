@@ -70,4 +70,5 @@ mybatis:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     default-enum-type-handler: com.halink.scaffold.config.enumhandler.AutoConversionHandler
+
 login-api: /api/login

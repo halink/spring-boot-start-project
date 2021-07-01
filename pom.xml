@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.3.5.RELEASE</version>
+        <version>2.5.2</version>
         <relativePath/>
     </parent>
 
@@ -22,7 +22,6 @@
         <guava.version>30.1.1-jre</guava.version>
         <mybatis.version>2.1.1</mybatis.version>
         <springfox.version>3.0.0</springfox.version>
-        <springboot-admin.version>2.2.3</springboot-admin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <druid.version>1.2.3</druid.version>
@@ -129,15 +128,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
-                <configuration>
-                    <source>1.8</source> <!-- depending on your project -->
-                    <target>1.8</target> <!-- depending on your project -->
-                </configuration>
             </plugin>
         </plugins>
     </build>

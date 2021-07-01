@@ -1,15 +1,18 @@
-FROM maven:3-jdk-8-alpine AS buildserver
-WORKDIR /opt/src/halink-boot
+FROM maven:3.8.1-adoptopenjdk-8 AS builder
+WORKDIR /usr/src/app
 COPY pom.xml .
-RUN mvn -B -f pom.xml -s /usr/share/maven/ref/settings-docker.xml dependency:resolve
+RUN mvn -B -s /usr/share/maven/ref/settings.xml dependency:resolve
 COPY . .
-RUN mvn -B -s /usr/share/maven/ref/settings-docker.xml package -DskipTests
+RUN mvn -B -s /usr/share/maven/ref/settings.xml package -DskipTests
+RUN mv target/*.jar fatjar.jar
+RUN java -Djarmode=layertools -jar fatjar.jar extract
 
-FROM openjdk:8-jdk-alpine
-ENV SPRING_PROFILES_ACTIVE test
-ENV JAVA_OPTS -Xms2g -Xmx2g -Xmn1g -XX:+UseConcMarkSweepGC
-VOLUME /tmp
-WORKDIR /app
-COPY --from=buildserver /opt/src/halink-boot/target/halink-boot-0.0.1-SNAPSHOT.jar .
-EXPOSE 8080
-ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /app/halink-boot-0.0.1-SNAPSHOT.jar --spring.profiles=$SPRING_PROFILES_ACTIVE" ]
+FROM openjdk8:jre8u292-b10-alpine
+ENV SPRING_PROFILES_ACTIVE dev
+ENV JAVA_OPTS -XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0
+WORKDIR application
+COPY --from=builder /usr/src/app/application/ ./
+COPY --from=builder /usr/src/app/dependencies/ ./
+COPY --from=builder /usr/src/app/snapshot-dependencies/ ./
+COPY --from=builder /usr/src/app/spring-boot-loader/ ./
+ENTRYPOINT exec java $JAVA_OPTS org.springframework.boot.loader.JarLauncher
